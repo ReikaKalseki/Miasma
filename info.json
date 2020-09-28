@@ -1,0 +1,11 @@
+{
+  "name": "Miasma",
+  "version": "0.0.1",
+  "title": "Miasma",
+  "author": "Reika",
+  "contact": "",
+  "homepage": "",
+  "factorio_version" : "0.18",
+  "description": "Adds clouds of miasma throughout the world, especially around alien nests. Miasma heals aliens and harms the player.",
+  "dependencies": ["base", "DragonIndustries", "? alien-biomes", "? NaturalEvolution", "? Rampant", "? Oreverhaul"]
+}
