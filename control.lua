@@ -99,3 +99,8 @@ script.on_event(defines.events.on_tick, function(event)
 	end
 	--]]
 end)
+
+commands.add_command("spawnMiasma", {"cmd.spawn-miasma-help"}, function(event)
+	local player = game.players[event.player_index]
+	generateMiasma(player.surface, player.position.x, player.position.y, game.create_random_generator(math.random(0, 2387341)))
+end)

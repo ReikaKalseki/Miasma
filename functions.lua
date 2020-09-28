@@ -1,8 +1,10 @@
 require "config"
 require "constants"
 
+require "__DragonIndustries__.arrays"
+
 function canPlaceAt(surface, x, y)
-	return surface.can_place_entity{name = "miasma", position = {x, y}}
+	return surface.can_place_entity{name = "miasma-effect", position = {x, y}}
 end
 
 function isInChunk(x, y, chunk)
@@ -38,8 +40,23 @@ end
 function generateMiasma(surface, x, y, rand)
 	if canPlaceAt(surface, x, y) then
 		if surface.create_entity{name = "miasma-effect", position = {x, y}, force = game.forces.enemy} ~= nil then
-			for i = 1,3 do
-				surface.create_entity{name = "miasma-visual-" .. i, position = {x, y}, force = game.forces.enemy}
+			local n = 3 --how many to choose from
+			local spawns = {}
+			local nspawns = rand(1, n)
+			while #spawns < nspawns do
+				local i = rand(1, n)
+				while listHasValue(spawns, i) do
+					i = rand(1, n)
+				end
+				table.insert(spawns, i)
+			end
+			--game.print(serpent.block(spawns))
+			for _,i in pairs(spawns) do
+				local dx = rand(x-2, x+2)
+				local dy = rand(y-2, y+2)
+				if not surface.create_entity{name = "miasma-visual-" .. i, position = {dx, dy}, force = game.forces.enemy} then
+					game.print("Failed to create effect " .. i)
+				end
 			end
 		end
 	end
