@@ -42,8 +42,8 @@ function generateMiasma(surface, x, y, rand)
 		local main = surface.create_entity{name = "miasma-effect", position = {x, y}, force = game.forces.enemy}
 		if main then
 			local tile = surface.get_tile(x, y)
-			local colors,water = getColorsForTile(tile)
-			if water or colors == nil or #colors == 0 then
+			local colors = getMiasmaColorsForTile(tile)
+			if colors == nil or #colors == 0 then
 				main.destroy()
 				--game.print("No colors for " .. tile.name)
 				return

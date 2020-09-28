@@ -70,7 +70,7 @@ local function createSmoke(name, color, damage)
 			  {
 				type = "area",
 				radius = damage.radius,
-				entity_flags = {"placeable-player"},
+				entity_flags = {"breaths-air"},
 				action_delivery =
 				{
 				  type = "instant",
@@ -84,14 +84,14 @@ local function createSmoke(name, color, damage)
 			  {
 				type = "area",
 				radius = damage.radius,
-				entity_flags = {"placeable-enemy"},
+				entity_flags = {"placeable-enemy", "placeable-neutral"},
 				action_delivery =
 				{
 				  type = "instant",
 				  target_effects =
 				  {
 					type = "damage",
-					damage = { amount = -damage.amount, type = "poison"}
+					damage = { amount = -damage.amount-1, type = "poison"}
 				  }
 				}
 			  }
