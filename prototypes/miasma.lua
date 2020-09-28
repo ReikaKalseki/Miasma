@@ -12,6 +12,9 @@ data:extend({cloud})
 
 --]]
 
+require "__DragonIndustries__.biomecolor"
+require "__DragonIndustries__.color"
+
 local function createSmoke(name, color, damage)
 	local size = 2.5*(damage and damage.radius/11 or 1)
 	local ret = 
@@ -67,7 +70,7 @@ local function createSmoke(name, color, damage)
 			  {
 				type = "area",
 				radius = damage.radius,
-				entity_flags = {"breaths-air", "placeable-player"},
+				entity_flags = {"placeable-player"},
 				action_delivery =
 				{
 				  type = "instant",
@@ -81,7 +84,7 @@ local function createSmoke(name, color, damage)
 			  {
 				type = "area",
 				radius = damage.radius,
-				entity_flags = {"breaths-air", "placeable-enemy"},
+				entity_flags = {"placeable-enemy"},
 				action_delivery =
 				{
 				  type = "instant",
@@ -102,8 +105,16 @@ local function createSmoke(name, color, damage)
 end
 
 data:extend({
-  createSmoke("effect", nil, {radius = 12, amount = 2}),
-  createSmoke("visual-1", {r = 0, g = 213/255, b = 186/255, a = 1}, nil),
-  createSmoke("visual-2", {r = 0, g = 95/255, b = 240/255, a = 1}, nil),
-  createSmoke("visual-3", {r = 182/255, g = 99/255, b = 250/255, a = 1}, nil),
+	createSmoke("effect", nil, {radius = 12, amount = 2}),
+	--createSmoke("visual-cyan", {r = 0, g = 213/255, b = 186/255, a = 1}, nil),
+	--createSmoke("visual-blue", {r = 0, g = 95/255, b = 240/255, a = 1}, nil),
+	--createSmoke("visual-purple", {r = 182/255, g = 99/255, b = 250/255, a = 1}, nil),
 })
+
+for _,color in pairs(ALL_COLORS) do
+	local basecolor = convertColor(RENDER_COLORS[color])
+	basecolor.r = math.min(1, basecolor.r*1.25+0.175)
+	basecolor.g = math.min(1, basecolor.g*1.25+0.175)
+	basecolor.b = math.min(1, basecolor.b*1.25+0.175)
+	data:extend({createSmoke("visual-" .. color, basecolor, nil)})
+end

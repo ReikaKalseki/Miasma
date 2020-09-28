@@ -1,5 +1,7 @@
 require "config"
 
+require "__DragonIndustries__.biomecolor"
+
 CHUNK_SIZE = 32
 
 BASE_SPAWN_FACTOR = 0.003125

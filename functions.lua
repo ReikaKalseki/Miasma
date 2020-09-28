@@ -4,7 +4,7 @@ require "constants"
 require "__DragonIndustries__.arrays"
 
 function canPlaceAt(surface, x, y)
-	return surface.can_place_entity{name = "miasma-effect", position = {x, y}}
+	return surface.can_place_entity{name = "miasma-effect", position = {x, y}} and surface.get_tile(x, y).name ~= "water"
 end
 
 function isInChunk(x, y, chunk)
@@ -39,23 +39,28 @@ end
 
 function generateMiasma(surface, x, y, rand)
 	if canPlaceAt(surface, x, y) then
-		if surface.create_entity{name = "miasma-effect", position = {x, y}, force = game.forces.enemy} ~= nil then
-			local n = 3 --how many to choose from
-			local spawns = {}
-			local nspawns = rand(1, n)
-			while #spawns < nspawns do
-				local i = rand(1, n)
-				while listHasValue(spawns, i) do
-					i = rand(1, n)
-				end
-				table.insert(spawns, i)
+		local main = surface.create_entity{name = "miasma-effect", position = {x, y}, force = game.forces.enemy}
+		if main then
+			local tile = surface.get_tile(x, y)
+			local colors,water = getColorsForTile(tile)
+			if water or colors == nil or #colors == 0 then
+				main.destroy()
+				--game.print("No colors for " .. tile.name)
+				return
 			end
-			--game.print(serpent.block(spawns))
-			for _,i in pairs(spawns) do
+			local spawns = {}
+			local nspawns = rand(1, #colors)
+			for i = 1,nspawns do
+				local idx = rand(1, #colors)
+				local color = table.remove(colors, idx)
+				table.insert(spawns, color)
+			end
+			--game.print(tile.name .. " > " .. serpent.block(spawns))
+			for _,color in pairs(spawns) do
 				local dx = rand(x-2, x+2)
 				local dy = rand(y-2, y+2)
-				if not surface.create_entity{name = "miasma-visual-" .. i, position = {dx, dy}, force = game.forces.enemy} then
-					game.print("Failed to create effect " .. i)
+				if not surface.create_entity{name = "miasma-visual-" .. color, position = {dx, dy}, force = game.forces.enemy} then
+					game.print("Failed to create effect " .. color)
 				end
 			end
 		end
