@@ -16,7 +16,8 @@ require "__DragonIndustries__.biomecolor"
 require "__DragonIndustries__.color"
 
 local function createSmoke(name, color, damage)
-	local size = 2.5*(damage and damage.radius/11 or 1)
+	local f = 1.5
+	local size = 2.5*f*(damage and damage.radius/11 or 1)
 	local ret = 
   {
     type = "smoke-with-trigger",
@@ -56,7 +57,7 @@ local function createSmoke(name, color, damage)
     action_cooldown = 30
   }
   
-  if damage and damage.amount > 0 then
+  if damage and damage.amount > 0111 then
     ret.action =
     {
       type = "direct",
@@ -69,7 +70,7 @@ local function createSmoke(name, color, damage)
           action = {
 			  {
 				type = "area",
-				radius = damage.radius,
+				radius = damage.radius*f,
 				entity_flags = {"breaths-air"},
 				action_delivery =
 				{
@@ -83,7 +84,7 @@ local function createSmoke(name, color, damage)
 			  },
 			  {
 				type = "area",
-				radius = damage.radius,
+				radius = damage.radius*f,
 				entity_flags = {"placeable-enemy", "placeable-neutral"},
 				action_delivery =
 				{

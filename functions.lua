@@ -55,7 +55,7 @@ function generateMiasma(surface, x, y, rand)
 				local color = table.remove(colors, idx)
 				table.insert(spawns, color)
 			end
-			--game.print(tile.name .. " > " .. serpent.block(spawns))
+			game.print(tile.name .. " > " .. serpent.block(spawns))
 			for _,color in pairs(spawns) do
 				local r = 5--2
 				local dx = rand(x-r, x+r)
