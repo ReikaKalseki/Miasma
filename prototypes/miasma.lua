@@ -91,7 +91,7 @@ local function createSmoke(name, color, damage)
 				  target_effects =
 				  {
 					type = "damage",
-					damage = { amount = -damage.amount-1, type = "poison"}
+					damage = { amount = -damage.amount*2-1, type = "poison"}
 				  }
 				}
 			  }
@@ -112,9 +112,12 @@ data:extend({
 })
 
 for _,color in pairs(ALL_COLORS) do
-	local basecolor = convertColor(RENDER_COLORS[color])
+	local basecolor = convertColor(RENDER_COLORS[color], true)
 	basecolor.r = math.min(1, basecolor.r*1.25+0.175)
 	basecolor.g = math.min(1, basecolor.g*1.25+0.175)
 	basecolor.b = math.min(1, basecolor.b*1.25+0.175)
+	--log(serpent.block(convertColor(RENDER_COLORS[color], true)))
+	--log("colorconvert to")
+	--log(serpent.block(basecolor))
 	data:extend({createSmoke("visual-" .. color, basecolor, nil)})
 end

@@ -37,7 +37,7 @@ end
 
 local function addExtraColor(tile, color)
 	if not EXTRA_MAP[tile] then
-		EXTRA_MAP = {}
+		EXTRA_MAP[tile] = {}
 	end
 	table.insert(EXTRA_MAP[tile], color)
 end

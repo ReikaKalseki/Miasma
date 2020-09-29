@@ -57,8 +57,9 @@ function generateMiasma(surface, x, y, rand)
 			end
 			--game.print(tile.name .. " > " .. serpent.block(spawns))
 			for _,color in pairs(spawns) do
-				local dx = rand(x-2, x+2)
-				local dy = rand(y-2, y+2)
+				local r = 5--2
+				local dx = rand(x-r, x+r)
+				local dy = rand(y-r, y+r)
 				if not surface.create_entity{name = "miasma-visual-" .. color, position = {dx, dy}, force = game.forces.enemy} then
 					game.print("Failed to create effect " .. color)
 				end
