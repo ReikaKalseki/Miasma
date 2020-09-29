@@ -5,7 +5,7 @@ require "__DragonIndustries__.biomecolor"
 CHUNK_SIZE = 32
 
 BASE_SPAWN_FACTOR = 0.125
-DISTANCE_ZERO = 100
+MIN_DISTANCE = 100
 DISTANCE_FULL = 500
 
 local TILE_COLOR_MAP = {}

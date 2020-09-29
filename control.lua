@@ -31,14 +31,13 @@ local function controlChunk(surface, area)
 	if dd < MIN_DISTANCE then
 		return
 	end
-	local df = math.min(1, (dd-MIN_DISTANCE)/DISTANCE_SCALE)
+	local df = math.min(1, (dd-MIN_DISTANCE)/(DISTANCE_FULL-MIN_DISTANCE))
 	if df < 1 and math.random() > df then
 		return
 	end
 	local seed = createSeed(surface, x, y)
 	rand.re_seed(seed)
-	local f = math.min(10, 1+(dd/1000))
-	f = f*Config.spawnDensity*BASE_SPAWN_FACTOR
+	local f = df*Config.spawnDensity*BASE_SPAWN_FACTOR
 	local f1 = rand(0, 2147483647)/2147483647
 	--game.print("Chunk at " .. x .. ", " .. y .. " with chance " .. f .. " / " .. f1)
 	if f1 < f then
