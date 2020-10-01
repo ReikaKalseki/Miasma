@@ -16,7 +16,7 @@ require "__DragonIndustries__.biomecolor"
 require "__DragonIndustries__.color"
 
 local function createSmoke(name, color, damage)
-	local f = 1.5
+	local f = 2.0
 	local size = 2.5*f*(damage and damage.radius/11 or 1)
 	local ret = 
   {
