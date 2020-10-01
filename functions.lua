@@ -37,7 +37,7 @@ function createSeed(surface, x, y) --Used by Minecraft MapGen
 	return bit32.band(cantorCombine(seed, cantorCombine(x, y)), 2147483647)
 end
 
-function generateMiasma(surface, x, y, rand)
+function generateMiasma(surface, x, y, rand, doPrint)
 	if canPlaceAt(surface, x, y) then
 		local main = surface.create_entity{name = "miasma-effect", position = {x, y}, force = game.forces.enemy}
 		if main then
@@ -45,7 +45,9 @@ function generateMiasma(surface, x, y, rand)
 			local colors = getMiasmaColorsForTile(tile)
 			if colors == nil or #colors == 0 then
 				main.destroy()
-				--game.print("No colors for " .. tile.name)
+				if doPrint then
+					game.print("No colors for " .. tile.name)
+				end
 				return
 			end
 			local spawns = {}
@@ -55,7 +57,9 @@ function generateMiasma(surface, x, y, rand)
 				local color = table.remove(colors, idx)
 				table.insert(spawns, color)
 			end
-			--game.print(tile.name .. " > " .. serpent.block(spawns))
+			if doPrint then
+				game.print(tile.name .. " > " .. serpent.block(spawns))
+			end
 			for _,color in pairs(spawns) do
 				local r = 5--2
 				local dx = rand(x-r, x+r)

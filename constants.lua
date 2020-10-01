@@ -11,6 +11,7 @@ DISTANCE_FULL = 500
 
 local TILE_COLOR_MAP = {}
 local COLOR_GROUPS = {}
+local COLOR_GROUPS_BACKUP = {}
 --local EXTRA_MAP = {}
 
 local function addExtraValidColors(tile, name, list)
@@ -37,7 +38,14 @@ function getMiasmaColorsForTile(tile)
 		end
 		--addExtraValidColors(tile, n, base)
 	end
-	return util.table.deepcopy(TILE_COLOR_MAP[n])
+	if not TILE_COLOR_MAP[n] then
+		for name,group in pairs(COLOR_GROUPS_BACKUP) do
+			if string.find(n, name, 1, true) then
+				TILE_COLOR_MAP[n] = group
+			end
+		end
+	end
+	return TILE_COLOR_MAP[n] and util.table.deepcopy(TILE_COLOR_MAP[n]) or nil
 end
 
 function initModifiers(isInit)
@@ -65,15 +73,20 @@ addExtraColor("sand-2", "red")
 addExtraColor("sand-3", "red")
 --]]
 
-local function addColorGroup(colors, names)
+local function addColorGroup(colors, names, backup)
 	for _,n in pairs(names) do
 		COLOR_GROUPS[n] = colors
 	end
+	if backup then
+		for _,n in pairs(backup) do
+			COLOR_GROUPS_BACKUP[n] = colors
+		end
+	end
 end
 
-addColorGroup({"red", "orange", "yellow"}, {"red", "dustyrose", "orange", "brown", "desert", "sand", "dirt", "tan", "beige"})
+addColorGroup({"red", "orange", "yellow"}, {"red", "dustyrose", "orange", "brown", "tan", "beige"}, {"sand", "desert", "dirt"})
 addColorGroup({"white", "green", "yellow"}, {"yellow", "cream", "olive"})
-addColorGroup({"argon", "green", "cyan"}, {"green", "grass"})
-addColorGroup({"white", "cyan", "argon"}, {"snow", "white", "ice", "frozen", "black", "grey", "gray"})
-addColorGroup({"argon", "blue", "purple"}, {"blue", "turqoise"})
+addColorGroup({"argon", "green", "cyan"}, {"green"}, {"grass"})
+addColorGroup({"white", "cyan", "argon"}, {"snow", "white", "ice", "frozen"})	
+addColorGroup({"argon", "blue", "purple"}, {"black", "blue", "turqoise"}, {"grey", "gray"})
 addColorGroup({"blue", "purple", "magenta"}, {"purple", "violet", "mauve", "aubergine"})
