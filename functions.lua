@@ -39,31 +39,21 @@ end
 
 function generateMiasma(surface, x, y, rand, doPrint)
 	if canPlaceAt(surface, x, y) then
-		local main = surface.create_entity{name = "miasma-effect", position = {x, y}, force = game.forces.enemy}
-		if main then
-			local tile = surface.get_tile(x, y)
-			local colors = getMiasmaColorsForTile(tile)
-			if doPrint then
-				game.print(tile.name .. " > " .. (colors and serpent.block(colors) or "nil"))
-			end
-			if colors == nil or #colors == 0 then
-				main.destroy()
-				return
-			end
-			local spawns = {}
-			local nspawns = rand(1, #colors)
-			for i = 1,nspawns do
-				local idx = rand(1, #colors)
-				local color = table.remove(colors, idx)
-				table.insert(spawns, color)
-			end
-			for _,color in pairs(spawns) do
-				local r = 5--2
-				local dx = rand(x-r, x+r)
-				local dy = rand(y-r, y+r)
-				if not surface.create_entity{name = "miasma-visual-" .. color, position = {dx, dy}, force = game.forces.enemy} then
-					game.print("Failed to create effect " .. color)
-				end
+		local tile = surface.get_tile(x, y)
+		local colors = getMiasmaColorsForTile(tile)
+		if doPrint then
+			game.print(tile.name .. " > " .. (colors and serpent.block(colors) or "nil"))
+		end
+		if colors == nil or #colors == 0 then
+			return
+		end
+		local spawns = {}
+		for _,color in pairs(spawns) do
+			local r = 5--2
+			local dx = rand(x-r, x+r)
+			local dy = rand(y-r, y+r)
+			if not surface.create_entity{name = "miasma-visual-" .. color, position = {dx, dy}, force = game.forces.enemy} then
+				game.print("Failed to create effect " .. color)
 			end
 		end
 	end
