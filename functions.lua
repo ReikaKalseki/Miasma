@@ -43,11 +43,11 @@ function generateMiasma(surface, x, y, rand, doPrint)
 		if main then
 			local tile = surface.get_tile(x, y)
 			local colors = getMiasmaColorsForTile(tile)
+			if doPrint then
+				game.print(tile.name .. " > " .. (colors and serpent.block(colors) or "nil"))
+			end
 			if colors == nil or #colors == 0 then
 				main.destroy()
-				if doPrint then
-					game.print("No colors for " .. tile.name)
-				end
 				return
 			end
 			local spawns = {}
@@ -56,9 +56,6 @@ function generateMiasma(surface, x, y, rand, doPrint)
 				local idx = rand(1, #colors)
 				local color = table.remove(colors, idx)
 				table.insert(spawns, color)
-			end
-			if doPrint then
-				game.print(tile.name .. " > " .. serpent.block(spawns))
 			end
 			for _,color in pairs(spawns) do
 				local r = 5--2

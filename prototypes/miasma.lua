@@ -57,7 +57,7 @@ local function createSmoke(name, color, damage)
     action_cooldown = 30
   }
   
-  if damage and damage.amount > 0111 then
+  if damage and damage.amount > 0 then
     ret.action =
     {
       type = "direct",
