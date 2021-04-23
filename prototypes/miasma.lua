@@ -48,7 +48,7 @@ local function createUnit(name, color)
     collision_box = {{-0.2, -0.2}, {0.2, 0.2}},
     selection_box = {{-0.4, -0.7}, {0.7, 0.4}},
 	has_belt_immunity = true,
-	collision_mask = {},
+	collision_mask = {"water-tile"},
     attack_parameters =
     {
 		type = "projectile",

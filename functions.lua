@@ -4,7 +4,7 @@ require "constants"
 require "__DragonIndustries__.arrays"
 
 function canPlaceAt(surface, x, y)
-	return surface.can_place_entity{name = "miasma-effect", position = {x, y}} and surface.get_tile(x, y).name ~= "water"
+	return surface.can_place_entity{name = "miasma-red", position = {x, y}} and surface.get_tile(x, y).name ~= "water"
 end
 
 function isInChunk(x, y, chunk)
@@ -47,12 +47,14 @@ function generateMiasma(surface, x, y, rand, doPrint)
 		if colors == nil or #colors == 0 then
 			return
 		end
-		local spawns = {}
-		for _,color in pairs(spawns) do
-			local r = 5--2
+		local nspawns = rand(20, 80)
+		local r = 15--2
+		for i = 1,nspawns do
+			local color = getRandomTableEntry(colors, rand)
 			local dx = rand(x-r, x+r)
-			local dy = rand(y-r, y+r)
-			if not surface.create_entity{name = "miasma-visual-" .. color, position = {dx, dy}, force = game.forces.enemy} then
+			local oy = rand(-r, r)*0.707
+			local dy = y+oy
+			if not surface.create_entity{name = "miasma-" .. color, position = {dx, dy}, force = game.forces.enemy} then
 				game.print("Failed to create effect " .. color)
 			end
 		end
